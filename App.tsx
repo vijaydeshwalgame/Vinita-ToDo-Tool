@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Todo, FilterType, TodoMap } from './types';
 import { TaskItem } from './components/TaskItem';
-import { AIAssistant } from './components/AIAssistant';
 import { Plus, Sparkles, CalendarIcon, Clock, X, Download } from './components/Icons';
 import { Calendar } from './components/Calendar';
 import { TimeWidget } from './components/TimeWidget';
@@ -110,17 +109,6 @@ function App() {
   const deleteTodo = (id: string) => {
     const newTodos = currentTodos.filter(t => t.id !== id);
     updateTodosForDate(selectedDateKey, newTodos);
-  };
-
-  const addRoutineTasks = (tasks: string[]) => {
-    const newTodos = tasks.map(text => ({
-      id: crypto.randomUUID(),
-      text,
-      completed: false,
-      createdAt: Date.now(),
-    }));
-    updateTodosForDate(selectedDateKey, [...newTodos, ...currentTodos]);
-    setToastMessage("Added a new routine for you ✨");
   };
 
   const handleInstallClick = async () => {
@@ -232,9 +220,6 @@ function App() {
            {showTimer && <TimeWidget />}
         </div>
 
-        {/* AI Assistant Widget */}
-        <AIAssistant onAddTasks={addRoutineTasks} />
-
         {/* Input Area */}
         <form onSubmit={handleManualAdd} className="relative group z-10">
           <input
@@ -294,7 +279,7 @@ function App() {
                   : `No tasks for ${relativeDateLabel}.`}
               </p>
               {filter !== FilterType.COMPLETED && (
-                  <p className="text-xs text-stone-300 mt-2">Type above or ask for a routine.</p>
+                  <p className="text-xs text-stone-300 mt-2">Type above to begin.</p>
               )}
             </div>
           ) : (
